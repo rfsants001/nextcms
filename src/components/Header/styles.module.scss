@@ -1,0 +1,56 @@
+.headerContainer {
+    height: 5rem;
+    border: 1px solid var(--gray-800);
+}
+
+.headerContent{
+    max-width: 1120px;
+    height: 5rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    display: flex;
+    align-items: center;
+
+    nav {
+        margin-left: 5rem;
+        height: 5rem;
+
+        a {
+            display: inline-block;
+            position: relative;
+            padding: 0 0.5rem;
+            line-height: 5rem;
+            color: var(--gray-300);
+
+            transition: color .3s;
+
+            & + a {
+                margin-left: 3rem;
+            }
+
+            &:hover {
+                color: var(--white);
+            }
+
+            &.active {
+                color: var(--white);
+            }
+
+            &.active::after {
+                content: "";
+                height: 3px;
+                border-radius: 3px 3px 0 0;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: var(--yellow-500);
+            }
+        }
+    }
+
+    button {
+        margin-left: auto;
+    }
+}
