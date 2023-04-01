@@ -4,7 +4,7 @@ import styles from "@/styles/Home.module.scss";
 import Image from "next/image";
 import { SubscribeButton } from "@/components/SubscribeButton";
 import { GetStaticProps } from "next";
-import { stripe } from "./api/stripe";
+import { stripe } from "../services/stripe";
 
 interface HomeProps {
   product: {

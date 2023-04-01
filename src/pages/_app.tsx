@@ -1,8 +1,10 @@
 import { Header } from "@/components/Header";
-import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Poppins } from "next/font/google";
+import { SessionProvider as NextAuthProvider } from "next-auth/react";
+
+import "@/styles/globals.scss";
 
 const poppins = Poppins({
   weight: ["300", "400", "500"],
@@ -10,9 +12,12 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   return (
-    <>
+    <NextAuthProvider session={session}>
       <style jsx global>{`
         body,
         select,
@@ -26,6 +31,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Header />
       <Component {...pageProps} />
-    </>
+    </NextAuthProvider>
   );
 }
