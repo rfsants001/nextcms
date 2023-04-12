@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import NextAuth from "next-auth/next";
 import GithubProvider from "next-auth/providers/github";
 import { query as q } from "faunadb";
@@ -16,14 +17,9 @@ export const authOptions = {
       },
     }),
   ],
-  jwt: {
-    signingKey: process.env.SIGNIN_KEY_JWT,
-  },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       const userEmail = profile.email;
-
-      console.log({ user, account, profile, email, credentials });
       try {
         await fauna.query(
           q.If(
