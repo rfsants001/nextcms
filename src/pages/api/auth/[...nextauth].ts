@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import NextAuth, { AuthOptions, User, Account, Profile } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import { query as q } from "faunadb";
+import { Match, query as q } from "faunadb";
 import { fauna } from "@/services/fauna";
 import { AdapterUser } from "next-auth/adapters";
 
@@ -22,6 +22,7 @@ export const authOptions: AuthOptions = {
     secret: process.env.JWT_SECRET,
   },
   callbacks: {
+    
     async signIn(params: {
       user: User | AdapterUser;
       account: Account | null;
@@ -50,6 +51,32 @@ export const authOptions: AuthOptions = {
         }
       } else {
         return false;
+      }
+    },
+    async session({session}){
+      try {
+        console.log(session.user?.email)
+        const userActiveSubscription = await fauna.query(
+          q.Get(
+            q.Intersection(
+              q.Match(
+                q.Index('subscription_by_user_ref'),
+                q.Select("ref",q.Get(q.Match(q.Index('user_by_email'),q.Casefold(session.user?.email ?? '' ))))
+              ),
+              q.Match(q.Index('subscription_by_status'),"active")
+            )
+          )
+        )
+        return {
+          ...session,
+          activeSubscription: userActiveSubscription
+        }
+      } catch(err) {
+        console.error(err)
+        return {
+          ...session,
+          activeSubscription: null
+        }
       }
     },
   },

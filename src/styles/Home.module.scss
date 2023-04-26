@@ -11,6 +11,7 @@
 
 .hero {
     max-width: 600px;
+    position: relative;
 
     > span {
         font-size: 1.5rem;
@@ -41,5 +42,34 @@
 
     button {
         margin-top: 2.5rem;
+    }
+}
+.container {
+
+    .text {
+        display: inline-block;
+        vertical-align: middle;
+        letter-spacing: 2px;
+    }
+
+    .cursor {
+        display: inline-block;
+        vertical-align: middle;
+        width: 5px;
+        height: 50px;
+        background-color: var(--purple-300);
+        animation: blink .75s step-end infinite;
+    }
+}
+
+@keyframes blink {
+
+    from,
+    to {
+        background-color: transparent;
+    }
+
+    50% {
+        background-color: var(--purple-300);
     }
 }
